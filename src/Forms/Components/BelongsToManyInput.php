@@ -30,7 +30,7 @@ class BelongsToManyInput extends Field
         // Register some listeners
         $this->registerListeners([
             'belongs-to-many::fetchItems' => [
-                function (BelongsToManyInput $component, string $statePath): void {
+                function (self $component, string $statePath): void {
                     if ($statePath !== $component->getStatePath()) {
                         return;
                     }
@@ -86,7 +86,7 @@ class BelongsToManyInput extends Field
     {
         return $this->getResources()->map(fn ($item) => [
             'id' => $item->id,
-            'selected' => in_array($item->id, $this->getState()),
+            'selected' => in_array($item->id, $this->getState() ?? []),
             'html' => view($this->getDisplayUsingView(), [
                 'item' => $item,
                 'label' => $this->getItemLabelUsing($item),

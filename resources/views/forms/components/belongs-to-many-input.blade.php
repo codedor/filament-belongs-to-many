@@ -17,16 +17,30 @@
         page: 1,
         perPage: {{ $getPerPage() }},
         items: null,
+        selected: [],
         init () {
+            this.state ??= [] // Insure that it uses an array
+
             $wire.dispatchFormEvent('belongs-to-many::fetchItems', '{{ $getStatePath() }}')
-
             $wire.on('belongs-to-many::itemsFetchedFor-{{ $getStatePath() }}', (items) => {
-                this.items = items[0]
+                this.items = [...items[0]]
+                this.selected = Alpine.raw(this.state).map((id) => this.items.find((item) => item.id === id))
             })
 
-            $watch('search', () => {
-                this.page = 1
-            })
+            $watch('search', () => this.page = 1)
+        },
+        updateState () {
+            this.state = [...this.selected.map((item) => item.id)]
+        },
+        reorder (event) {
+            const selected = Alpine.raw(this.selected)
+
+            const reorderedRow = selected.splice(event.oldIndex, 1)[0]
+            selected.splice(event.newIndex, 0, reorderedRow)
+
+            this.selected = selected
+
+            this.updateState()
         },
         currentPage () {
             return this.unselected()
@@ -35,29 +49,28 @@
         unselected () {
             return this.items
                 .filter((item) => item.html.toLowerCase().includes(this.search.toLowerCase()))
-                .filter((item) => ! this.state.includes(item.id))
-        },
-        selected () {
-            return this.items.filter((item) => this.state.includes(item.id))
+                .filter((item) => ! this.selected.includes(item))
         },
         maxPage () {
             return Math.ceil(this.unselected().length / this.perPage)
         },
-        toggle (id) {
-            if (this.state.includes(id)) {
-                this.state = this.state.filter((selection) => selection !== id)
+        toggle (item) {
+            if (this.selected.includes(item)) {
+                this.selected = this.selected.filter((selection) => selection.id !== item.id)
             } else {
-                this.state.push(id)
+                this.selected.push(item)
             }
 
             if (this.page > this.maxPage()) {
                 this.page = this.maxPage()
             }
+
+            this.updateState()
         },
     }">
         <template x-if="items !== null">
             <div class="flex">
-                <div class="w-1/2 h-128 border rounded-lg overflow-hidden flex flex-col">
+                <div class="w-1/2 h-128 border rounded-lg overflow-hidden flex flex-col" wire:ignore>
                     <div class="border-b p-2">
                         <input
                             type="text"
@@ -75,7 +88,7 @@
                         <template x-for="item in currentPage()" :key="item.id">
                             <div
                                 x-html="item.html"
-                                @click="toggle(item.id)"
+                                @click="toggle(item)"
                                 class="border-b last:border-b-0 cursor-pointer"
                             ></div>
                         </template>
@@ -88,7 +101,7 @@
                     >
                         <button
                             type="button"
-                            class="btn btn-sm btn-ghost w-1/2 flex justify-center p-4 disabled:opacity-10"
+                            class="btn btn-sm btn-ghost w-1/2 flex justify-center p-4 opacity-75 hover:opacity-100 disabled:opacity-10"
                             :disabled="page === 1"
                             @click="page = 1"
                         >
@@ -97,7 +110,7 @@
 
                         <button
                             type="button"
-                            class="btn btn-sm btn-ghost w-1/2 flex justify-center p-4 disabled:opacity-10"
+                            class="btn btn-sm btn-ghost w-1/2 flex justify-center p-4 opacity-75 hover:opacity-100 disabled:opacity-10"
                             :disabled="page === 1"
                             @click="page -= 1"
                         >
@@ -112,7 +125,7 @@
 
                         <button
                             type="button"
-                            class="btn btn-sm btn-ghost w-1/2 flex justify-center p-4 disabled:opacity-10"
+                            class="btn btn-sm btn-ghost w-1/2 flex justify-center p-4 opacity-75 hover:opacity-100 disabled:opacity-10"
                             :disabled="page === maxPage()"
                             @click="page += 1"
                         >
@@ -121,7 +134,7 @@
 
                         <button
                             type="button"
-                            class="btn btn-sm btn-ghost w-1/2 flex justify-center p-4 disabled:opacity-10"
+                            class="btn btn-sm btn-ghost w-1/2 flex justify-center p-4 opacity-75 hover:opacity-100 disabled:opacity-10"
                             :disabled="page === maxPage()"
                             @click="page = maxPage()"
                         >
@@ -137,11 +150,18 @@
                     </div>
                 </div>
 
-                <div class="w-1/2 h-128 border rounded-lg overflow-y-auto">
-                    <template x-for="item in selected()" :key="item.id">
+                <div
+                    class="w-1/2 h-128 border rounded-lg overflow-y-auto"
+                    wire:ignore
+                    x-sortable="state"
+                    x-on:end="reorder($event)"
+                >
+                    <template x-for="(item, key) in selected" :key="key">
                         <div
+                            x-sortable-handle
+                            x-sortable-item="item.id"
                             x-html="item.html"
-                            @click="toggle(item.id)"
+                            @click="toggle(item)"
                             class="border-b last:border-b-0 cursor-pointer"
                         ></div>
                     </template>
