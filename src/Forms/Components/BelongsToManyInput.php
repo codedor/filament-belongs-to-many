@@ -12,7 +12,7 @@ class BelongsToManyInput extends Field
 {
     protected string $view = 'belongs-to-many-field::forms.components.belongs-to-many-input';
 
-    public string|Closure $displayViewUsing = 'habtm-field::habtm-item';
+    public string|Closure $displayViewUsing = 'belongs-to-many-field::table-item';
 
     public string|Closure $relationship;
 
@@ -26,6 +26,21 @@ class BelongsToManyInput extends Field
     {
         // Guess the relationship name
         $this->relationship = $this->getName();
+
+        // Register some listeners
+        $this->registerListeners([
+            'belongs-to-many::fetchItems' => [
+                function (BelongsToManyInput $component, string $statePath): void {
+                    if ($statePath !== $component->getStatePath()) {
+                        return;
+                    }
+
+                    $component->getLivewire()->emit("belongs-to-many::itemsFetchedFor-{$statePath}", [
+                        $component->getResourcesForAlpine(),
+                    ]);
+                },
+            ],
+        ]);
 
         // Default to all items
         $this->resourceQuery(function (Builder $query) {
@@ -48,7 +63,7 @@ class BelongsToManyInput extends Field
             $component->getRelationship()->sync($state ?? []);
         });
 
-        // Don't save the state, we already do this in the saveRelationshipsUsing callback
+        // Don't save the state as a normal field
         $this->dehydrated(false);
     }
 
@@ -65,6 +80,18 @@ class BelongsToManyInput extends Field
         $query = $this->evaluate($this->resourceQuery, ['query' => $related->query()]);
 
         return collect($query->get(), $this->getDisplayUsingView());
+    }
+
+    public function getResourcesForAlpine(): Collection
+    {
+        return $this->getResources()->map(fn ($item) => [
+            'id' => $item->id,
+            'selected' => in_array($item->id, $this->getState()),
+            'html' => view($this->getDisplayUsingView(), [
+                'item' => $item,
+                'label' => $this->getItemLabelUsing($item),
+            ])->render(),
+        ]);
     }
 
     public function relationship(string|Closure $relationship): self
