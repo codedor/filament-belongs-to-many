@@ -12,13 +12,13 @@ class BelongsToManyInput extends Field
 {
     protected string $view = 'belongs-to-many-field::forms.components.belongs-to-many-input';
 
-    public string | Closure $displayViewUsing = 'habtm-field::habtm-item';
+    public string|Closure $displayViewUsing = 'habtm-field::habtm-item';
 
-    public string | Closure $relationship;
+    public string|Closure $relationship;
 
-    public int | Closure $perPage = 10;
+    public int|Closure $perPage = 10;
 
-    public null | string | Closure $itemLabel = null;
+    public null|string|Closure $itemLabel = null;
 
     public Closure $resourceQuery;
 
@@ -67,7 +67,7 @@ class BelongsToManyInput extends Field
         return collect($query->get(), $this->getDisplayUsingView());
     }
 
-    public function relationship(string | Closure $relationship): self
+    public function relationship(string|Closure $relationship): self
     {
         $this->relationship = $relationship;
 
@@ -79,7 +79,7 @@ class BelongsToManyInput extends Field
         return $this->getModelInstance()->{$this->evaluate($this->relationship)}();
     }
 
-    public function perPage(int | Closure $callback): static
+    public function perPage(int|Closure $callback): static
     {
         $this->perPage = $callback;
 
@@ -91,7 +91,7 @@ class BelongsToManyInput extends Field
         return $this->evaluate($this->perPage);
     }
 
-    public function displayViewUsing(string | Closure $view): self
+    public function displayViewUsing(string|Closure $view): self
     {
         $this->displayViewUsing = $view;
 
@@ -103,7 +103,7 @@ class BelongsToManyInput extends Field
         return $this->evaluate($this->displayViewUsing);
     }
 
-    public function displayLabelUsing(null | string | Closure $view): self
+    public function displayLabelUsing(null|string|Closure $view): self
     {
         $this->itemLabel = $view;
 
