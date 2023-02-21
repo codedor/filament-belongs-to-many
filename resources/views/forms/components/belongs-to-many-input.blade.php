@@ -24,7 +24,8 @@
             $wire.dispatchFormEvent('belongs-to-many::fetchItems', '{{ $getStatePath() }}')
             $wire.on('belongs-to-many::itemsFetchedFor-{{ $getStatePath() }}', (items) => {
                 this.items = [...items[0]]
-                this.selected = Alpine.raw(this.state).map((id) => this.items.find((item) => item.id === id))
+                this.selected = Alpine.raw(this.state)
+                    .map((id) => this.items.find((item) => item.id === id))
             })
 
             $watch('search', () => this.page = 1)
@@ -34,10 +35,9 @@
         },
         reorder (event) {
             const selected = Alpine.raw(this.selected)
-
             const reorderedRow = selected.splice(event.oldIndex, 1)[0]
-            selected.splice(event.newIndex, 0, reorderedRow)
 
+            selected.splice(event.newIndex, 0, reorderedRow)
             this.selected = selected
 
             this.updateState()
@@ -63,6 +63,8 @@
 
             if (this.page > this.maxPage()) {
                 this.page = this.maxPage()
+            } else if (this.page < 1) {
+                this.page = 1
             }
 
             this.updateState()
@@ -70,7 +72,7 @@
     }">
         <template x-if="items !== null">
             <div class="flex">
-                <div class="w-1/2 h-128 border rounded-lg overflow-hidden flex flex-col" wire:ignore>
+                <div class="w-1/2 h-128 bg-white border rounded-lg overflow-hidden flex flex-col" wire:ignore>
                     <div class="border-b p-2">
                         <input
                             type="text"
@@ -151,10 +153,12 @@
                 </div>
 
                 <div
-                    class="w-1/2 h-128 border rounded-lg overflow-y-auto"
+                    class="w-1/2 h-128 bg-white border rounded-lg overflow-y-auto"
                     wire:ignore
-                    x-sortable="state"
-                    x-on:end="reorder($event)"
+                    @if ($getSortable())
+                        x-sortable="selected"
+                        x-on:end="reorder($event)"
+                    @endif
                 >
                     <template x-for="(item, key) in selected" :key="key">
                         <div

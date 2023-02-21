@@ -18,7 +18,9 @@ class BelongsToManyInput extends Field
 
     public int|Closure $perPage = 10;
 
-    public null|string|Closure $itemLabel = null;
+    public string|Closure $itemLabel = 'id';
+
+    public bool|string|Closure $sortable = false;
 
     public Closure $resourceQuery;
 
@@ -50,8 +52,10 @@ class BelongsToManyInput extends Field
         // Get the selected items
         $this->loadStateFromRelationshipsUsing(static function (self $component): void {
             $relationship = $component->getRelationship();
+            $sortable = $component->getSortable();
 
             $state = $relationship->getResults()
+                ->when(is_string($sortable), fn ($query) => $query->sortBy("pivot.{$sortable}"))
                 ->pluck($relationship->getRelatedKeyName())
                 ->toArray();
 
@@ -60,7 +64,18 @@ class BelongsToManyInput extends Field
 
         // Save the newly selected items
         $this->saveRelationshipsUsing(static function (self $component, $state) {
-            $component->getRelationship()->sync($state ?? []);
+            $state = Collection::wrap($state ?? []);
+            $sortable = $component->getSortable();
+            if (is_string($sortable)) {
+                $state = $state->mapWithKeys(function ($item, $index) use ($sortable) {
+                    return [$item => [$sortable => $index + 10000]];
+                });
+            }
+
+            $component->getRelationship()->sync(
+                $state->toArray(),
+                $sortable !== false // Detach when using sorting
+            );
         });
 
         // Don't save the state as a normal field
@@ -106,6 +121,18 @@ class BelongsToManyInput extends Field
         return $this->getModelInstance()->{$this->evaluate($this->relationship)}();
     }
 
+    public function sortable(bool|string|Closure $sortable = true): self
+    {
+        $this->sortable = $sortable;
+
+        return $this;
+    }
+
+    public function getSortable(): bool|string
+    {
+        return $this->evaluate($this->sortable);
+    }
+
     public function perPage(int|Closure $callback): static
     {
         $this->perPage = $callback;
@@ -139,7 +166,10 @@ class BelongsToManyInput extends Field
 
     public function getItemLabelUsing($item)
     {
-        return $item->{$this->evaluate($this->itemLabel)}
-            ?? $item->id;
+        if (is_string($this->itemLabel)) {
+            return $item->{$this->itemLabel} ?? $item->id;
+        }
+
+        return $this->evaluate($this->itemLabel, ['item' => $item]);
     }
 }
