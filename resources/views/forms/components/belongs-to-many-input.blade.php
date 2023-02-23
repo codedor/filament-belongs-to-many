@@ -44,6 +44,10 @@
             this.selected = selected
 
             this.updateState()
+
+            // HACK update prevKeys to new sort order
+            // https://github.com/alpinejs/alpine/discussions/1635
+            $refs.selected_template._x_prevKeys = this.state
         },
         currentPage () {
             return this.unselected()
@@ -162,7 +166,7 @@
                         x-on:end="reorder($event)"
                     @endif
                 >
-                    <template x-for="item in selected" :key="item.id">
+                    <template x-for="item in selected" :key="item.id" x-ref="selected_template">
                         <div
                             x-sortable-handle
                             x-sortable-item="item.id"
