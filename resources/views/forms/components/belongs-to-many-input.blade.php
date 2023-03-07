@@ -15,7 +15,7 @@
         state: $wire.entangle('{{ $getStatePath() }}').defer,
         search: '',
         page: 1,
-        perPage: {{ $getPerPage() }},
+        perPage: {{ $getPagination() }},
         items: [],
         selected: [],
         loading: true,

@@ -16,7 +16,7 @@ class BelongsToManyInput extends Field
 
     public string|Closure $relationship;
 
-    public int|Closure $perPage = 10;
+    public int|Closure $pagination = 10;
 
     public string|Closure $itemLabel = 'id';
 
@@ -104,7 +104,7 @@ class BelongsToManyInput extends Field
             'selected' => in_array($item->id, $this->getState() ?? []),
             'html' => view($this->getDisplayUsingView(), [
                 'item' => $item,
-                'label' => $this->getItemLabelUsing($item),
+                'label' => $this->getDisplayLabelUsing($item),
             ])->render(),
         ]);
     }
@@ -133,16 +133,20 @@ class BelongsToManyInput extends Field
         return $this->evaluate($this->sortable);
     }
 
-    public function perPage(int|Closure $callback): static
+    public function pagination(bool|int|Closure $callback): static
     {
-        $this->perPage = $callback;
+        if (is_bool($callback)) {
+            $callback = $callback ? $this->pagination : PHP_INT_MAX;
+        }
+
+        $this->pagination = $callback;
 
         return $this;
     }
 
-    public function getPerPage()
+    public function getPagination()
     {
-        return $this->evaluate($this->perPage);
+        return $this->evaluate($this->pagination);
     }
 
     public function displayViewUsing(string|Closure $view): self
@@ -164,7 +168,7 @@ class BelongsToManyInput extends Field
         return $this;
     }
 
-    public function getItemLabelUsing($item)
+    public function getDisplayLabelUsing($item)
     {
         if (is_string($this->itemLabel)) {
             return $item->{$this->itemLabel} ?? $item->id;
