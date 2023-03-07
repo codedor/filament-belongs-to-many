@@ -1,11 +1,5 @@
 # Belongs To Many Field for Filament
 
-## Introduction
-
-The Belongs to Many Field allows you to select multiple items from a list and save them on the Edit page, without the use of a relation manager.
-
-![The HABTM field](./preview.png)
-
 ## Installation
 
 First, install this package via the Composer package manager:
