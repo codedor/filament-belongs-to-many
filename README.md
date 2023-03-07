@@ -1,8 +1,8 @@
-# HABTM field for Filament
+# Belongs To Many field for Filament
 
-##
+The Belongs to Many Field allows you to select multiple items from a list and save them on the Edit page, without the use of a relation manager.
 
-This is where your description should go. Limit it to a paragraph or two. Consider adding a small example.
+![The HABTM field](./docs/preview.png)
 
 ## Installation
 
@@ -10,39 +10,6 @@ You can install the package via composer:
 
 ```bash
 composer require codedor/filament-belongs-to-many
-```
-
-You can publish and run the migrations with:
-
-```bash
-php artisan vendor:publish --tag="filament-belongs-to-many-migrations"
-php artisan migrate
-```
-
-You can publish the config file with:
-
-```bash
-php artisan vendor:publish --tag="filament-belongs-to-many-config"
-```
-
-This is the contents of the published config file:
-
-```php
-return [
-];
-```
-
-Optionally, you can publish the views using
-
-```bash
-php artisan vendor:publish --tag="filament-belongs-to-many-views"
-```
-
-## Usage
-
-```php
-$belongsToMany = new Codedor\BelongsToMany();
-echo $belongsToMany->echoPhrase('Hello, Codedor!');
 ```
 
 ## Documentation
