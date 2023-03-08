@@ -1,6 +1,6 @@
 <?php
 
-namespace Codedor\BelongsToMany\Tests\Fixtures;
+namespace Codedor\BelongsToMany\Tests\Fixtures\Forms;
 
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
