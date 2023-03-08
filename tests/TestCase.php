@@ -3,7 +3,9 @@
 namespace Codedor\BelongsToMany\Tests;
 
 use Codedor\BelongsToMany\Providers\BelongsToManyServiceProvider;
+use Filament\FilamentServiceProvider;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Livewire\LivewireServiceProvider;
 use Orchestra\Testbench\TestCase as Orchestra;
 
 class TestCase extends Orchestra
@@ -21,6 +23,8 @@ class TestCase extends Orchestra
     {
         return [
             BelongsToManyServiceProvider::class,
+            FilamentServiceProvider::class,
+            LivewireServiceProvider::class,
         ];
     }
 
