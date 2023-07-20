@@ -2,7 +2,6 @@
 
 namespace Codedor\BelongsToMany\Providers;
 
-use Filament\Facades\Filament;
 use Filament\Support\Assets\Css;
 use Filament\Support\Facades\FilamentAsset;
 use Spatie\LaravelPackageTools\Package;
