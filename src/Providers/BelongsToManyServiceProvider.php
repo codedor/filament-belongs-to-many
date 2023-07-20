@@ -3,6 +3,8 @@
 namespace Codedor\BelongsToMany\Providers;
 
 use Filament\Facades\Filament;
+use Filament\Support\Assets\Css;
+use Filament\Support\Facades\FilamentAsset;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
@@ -16,12 +18,10 @@ class BelongsToManyServiceProvider extends PackageServiceProvider
             ->hasViews('belongs-to-many-field');
     }
 
-    public function boot()
+    public function bootingPackage()
     {
-        parent::boot();
-
-        Filament::serving(function () {
-            Filament::registerStyles([__DIR__ . '/../../dist/css/belongs-to-many.css']);
-        });
+        FilamentAsset::register([
+            Css::make('filament-belongs-to-many-stylesheet', __DIR__ . '/../../dist/css/belongs-to-many.css'),
+        ], 'filament-belongs-to-many');
     }
 }
