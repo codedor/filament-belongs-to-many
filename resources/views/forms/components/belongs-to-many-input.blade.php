@@ -1,6 +1,6 @@
 <x-dynamic-component :component="$getFieldWrapperView()" :field="$field">
     <div x-data="{
-        state: $wire.entangle('{{ $getStatePath() }}').defer,
+        state: $wire.entangle('{{ $getStatePath() }}'),
         search: '',
         page: 1,
         perPage: {{ $getPagination() }},
@@ -11,8 +11,9 @@
             this.state ??= [] // Insure that it uses an array
 
             $wire.dispatchFormEvent('belongs-to-many::fetchItems', '{{ $getStatePath() }}')
-            $wire.on('belongs-to-many::itemsFetchedFor-{{ $getStatePath() }}', (items) => {
+            $wire.$on('belongs-to-many::itemsFetchedFor-{{ $getStatePath() }}', (items) => {
                 this.items = [...items[0]]
+
                 this.selected = Alpine.raw(this.state)
                     .map((id) => this.items.find((item) => item.id === id))
 

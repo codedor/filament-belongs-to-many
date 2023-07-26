@@ -37,9 +37,10 @@ class BelongsToManyInput extends Field
                         return;
                     }
 
-                    $component->getLivewire()->emit("belongs-to-many::itemsFetchedFor-{$statePath}", [
-                        $component->getResourcesForAlpine(),
-                    ]);
+                    $component->getLivewire()->dispatch(
+                        "belongs-to-many::itemsFetchedFor-{$statePath}",
+                        $component->getResourcesForAlpine()
+                    );
                 },
             ],
         ]);
