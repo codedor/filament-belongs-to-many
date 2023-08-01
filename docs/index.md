@@ -8,6 +8,26 @@ First, install this package via the Composer package manager:
 composer require codedor/filament-belongs-to-many
 ```
 
+In an effort to align with Filament's theming methodology you will need to use a custom theme to use this plugin.
+
+> **Note**
+> If you have not set up a custom theme and are using a Panel follow the instructions in the [Filament Docs](https://filamentphp.com/docs/3.x/panels/themes#creating-a-custom-theme) first. The following applies to both the Panels Package and the standalone Forms package.
+
+1. Import the plugin's stylesheet (if not already included) into your theme's css file.
+
+```css
+@import '../../../../vendor/codedor/filament-belongs-to-many/resources/css/plugin.css';
+```
+
+2. Add the plugin's views to your `tailwind.config.js` file.
+
+```js
+content: [
+    ...
+    './vendor/codedor/filament-belongs-to-many/resources/**/*.blade.php',
+]
+```
+
 ## Usage
 
 To use this field, you'll need to add it to your resource's Edit page, like so:
@@ -94,7 +114,7 @@ BelongsToMany::make('tags')
     ->pagination(10),
 ```
 
-By default this value will be 10, but you can change it to whatever you want.
+By default, this value will be 10, but you can change it to whatever you want.
 If you do not wish to paginate the items, you can set the value to `false`, note that this will load all items at once, which may result in poor performance:
 
 ```php

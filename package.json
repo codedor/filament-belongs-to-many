@@ -1,12 +1,6 @@
 {
     "private": true,
-    "scripts": {
-        "dev:styles": "npx tailwindcss -i resources/css/plugin.css -o dist/css/belongs-to-many.css --postcss --watch",
-        "build:styles": "npx tailwindcss -i resources/css/plugin.css -o dist/css/belongs-to-many.css --postcss --minify && npm run purge",
-        "purge": "filament-purge -i dist/css/belongs-to-many.css -o dist/css/belongs-to-many.css",
-        "dev": "npm-run-all --parallel dev:*",
-        "build": "npm-run-all build:*"
-    },
+    "scripts": {},
     "devDependencies": {
         "@awcodes/filament-plugin-purge": "^1.0.2",
         "autoprefixer": "^10.4.7",
