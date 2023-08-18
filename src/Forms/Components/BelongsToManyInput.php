@@ -37,7 +37,10 @@ class BelongsToManyInput extends Field
                         return;
                     }
 
-                    $component->getLivewire()->dispatch(
+                    /** @var \Livewire\Component $livewire */
+                    $livewire = $component->getLivewire();
+
+                    $livewire->dispatch(
                         "belongs-to-many::itemsFetchedFor-{$statePath}",
                         $component->getResourcesForAlpine()
                     );
@@ -55,7 +58,10 @@ class BelongsToManyInput extends Field
             $relationship = $component->getRelationship();
             $sortable = $component->getSortable();
 
-            $state = $relationship->getResults()
+            /** @var \Illuminate\Database\Eloquent\Collection $results */
+            $results = $relationship->getResults();
+
+            $state = $results
                 ->when(is_string($sortable), fn ($query) => $query->sortBy("pivot.{$sortable}"))
                 ->pluck($relationship->getRelatedKeyName())
                 ->toArray();
@@ -95,7 +101,7 @@ class BelongsToManyInput extends Field
         $related = $this->getRelationship()->getRelated();
         $query = $this->evaluate($this->resourceQuery, ['query' => $related->query()]);
 
-        return collect($query->get(), $this->getDisplayUsingView());
+        return collect($query->get());
     }
 
     public function getResourcesForAlpine(): Collection
