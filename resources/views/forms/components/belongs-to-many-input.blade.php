@@ -1,18 +1,6 @@
-<x-dynamic-component
-    :component="$getFieldWrapperView()"
-    :id="$getId()"
-    :label="$getLabel()"
-    :label-sr-only="$isLabelHidden()"
-    :helper-text="$getHelperText()"
-    :hint="$getHint()"
-    :hint-action="$getHintAction()"
-    :hint-color="$getHintColor()"
-    :hint-icon="$getHintIcon()"
-    :required="$isRequired()"
-    :state-path="$getStatePath()"
->
+<x-dynamic-component :component="$getFieldWrapperView()" :field="$field">
     <div x-data="{
-        state: $wire.entangle('{{ $getStatePath() }}').defer,
+        state: $wire.entangle('{{ $getStatePath() }}'),
         search: '',
         page: 1,
         perPage: {{ $getPagination() }},
@@ -23,8 +11,9 @@
             this.state ??= [] // Insure that it uses an array
 
             $wire.dispatchFormEvent('belongs-to-many::fetchItems', '{{ $getStatePath() }}')
-            $wire.on('belongs-to-many::itemsFetchedFor-{{ $getStatePath() }}', (items) => {
+            $wire.$on('belongs-to-many::itemsFetchedFor-{{ $getStatePath() }}', (items) => {
                 this.items = [...items[0]]
+
                 this.selected = Alpine.raw(this.state)
                     .map((id) => this.items.find((item) => item.id === id))
 
@@ -192,7 +181,7 @@
 
         <template x-if="loading">
             <div class="w-1/2 h-128 border rounded-lg overflow-hidden flex justify-center items-center">
-                <x-filament-support::loading-indicator
+                <x-filament::loading-indicator
                     class="w-10 h-10"
                 />
             </div>
