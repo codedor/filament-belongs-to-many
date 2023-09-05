@@ -14,7 +14,7 @@
             $wire.$on('belongs-to-many::itemsFetchedFor-{{ $getStatePath() }}', (items) => {
                 this.items = [...items[0]]
 
-                this.selected = Alpine.raw(this.state)
+                this.selected = (Alpine.raw(this.state) || [])
                     .map((id) => this.items.find((item) => item.id === id))
 
                 this.loading = false
@@ -26,7 +26,7 @@
             this.state = [...this.selected.map((item) => item.id)]
         },
         reorder (event) {
-            const selected = Alpine.raw(this.selected)
+            const selected = Alpine.raw(this.selected) || []
             const reorderedRow = selected.splice(event.oldIndex, 1)[0]
 
             selected.splice(event.newIndex, 0, reorderedRow)
