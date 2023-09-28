@@ -83,7 +83,7 @@
                     </div>
 
                     <div class="overflow-y-auto flex-auto">
-                        <template x-for="item in currentPage()" :key="item.id">
+                        <template x-for="(item, key) in currentPage()" :key="key">
                             <div
                                 x-html="item.html"
                                 @click="toggle(item)"
@@ -155,7 +155,7 @@
                         x-on:end="reorder($event)"
                     @endif
                 >
-                    <template x-for="item in selected" :key="item.id" x-ref="selected_template">
+                    <template x-for="(item, key) in selected" :key="key" x-ref="selected_template">
                         <div
                             x-sortable-handle
                             x-sortable-item="item.id"
@@ -169,7 +169,7 @@
         @else
             <div class="flex" x-show="! loading" x-cloak>
                 <div class="w-1/2 max-h-128 bg-white border rounded-lg overflow-y-auto">
-                    <template x-for="item in selected" :key="item.id">
+                    <template x-for="(item, key) in selected" :key="key">
                         <div
                             x-html="item.html"
                             class="border-b last:border-b-0"

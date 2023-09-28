@@ -81,7 +81,7 @@ class BelongsToManyInput extends Field
 
             $component->getRelationship()->sync(
                 $state->toArray(),
-                $sortable !== false // Detach when using sorting
+                true
             );
         });
 
