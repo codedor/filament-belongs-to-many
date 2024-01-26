@@ -68,16 +68,21 @@
     }">
         @if (! $isDisabled())
             <div class="flex" x-show="! loading" x-cloak>
-                <div class="w-1/2 h-128 bg-white border rounded-lg overflow-hidden flex flex-col">
-                    <div class="border-b p-2">
+                <div class="w-1/2 h-128 border dark:border-white/10 rounded-lg overflow-hidden flex flex-col">
+                    <div class="border-b dark:border-white/10 p-2">
                         <input
                             type="text"
                             x-model="search"
                             placeholder="Search..."
                             class="
-                                block transition duration-75 rounded-lg shadow-sm
-                                focus:border-primary-600 focus:ring-1 focus:ring-inset focus:ring-primary-600
-                                disabled:opacity-70 border-gray-300 w-full
+                                w-full border-none px-3 py-1.5 text-base text-gray-950 outline-none transition
+                                duration-75 placeholder:text-gray-400 focus:ring-0 disabled:text-gray-500
+                                disabled:[-webkit-text-fill-color:theme(colors.gray.500)] dark:text-white
+                                dark:placeholder:text-gray-500 dark:disabled:text-gray-400
+                                dark:disabled:[-webkit-text-fill-color:theme(colors.gray.400)] sm:text-sm sm:leading-6
+                                bg-white dark:bg-white/5 dark:focus:ring-primary-500 dark:ring-white/20 duration-75
+                                fi-input-wrp flex focus:ring-2 focus:ring-primary-600 ring-1 ring-gray-950/10
+                                rounded-lg shadow-sm
                             "
                         >
                     </div>
@@ -87,7 +92,7 @@
                             <div
                                 x-html="item.html"
                                 @click="toggle(item)"
-                                class="border-b last:border-b-0 cursor-pointer hover:bg-gray-100"
+                                class="border-b last:border-b-0 dark:border-white/10 cursor-pointer hover:bg-gray-100 dark:hover:bg-white/5"
                             ></div>
                         </template>
                     </div>
@@ -149,7 +154,7 @@
                 </div>
 
                 <div
-                    class="w-1/2 h-128 bg-white border rounded-lg overflow-y-auto"
+                    class="w-1/2 h-128 border dark:border-white/10 border rounded-lg overflow-y-auto"
                     @if ($getSortable())
                         x-sortable="selected"
                         x-on:end="reorder($event)"
@@ -161,18 +166,18 @@
                             x-sortable-item="item.id"
                             x-html="item.html"
                             @click="toggle(item)"
-                            class="border-b last:border-b-0 cursor-pointer hover:bg-gray-100"
+                            class="border-b dark:border-white/10 last:border-b-0 cursor-pointer hover:bg-gray-100 dark:hover:bg-white/5"
                         ></div>
                     </template>
                 </div>
             </div>
         @else
             <div class="flex" x-show="! loading" x-cloak>
-                <div class="w-1/2 max-h-128 bg-white border rounded-lg overflow-y-auto">
+                <div class="w-1/2 max-h-128 border dark:border-white/10 border rounded-lg overflow-y-auto">
                     <template x-for="(item, key) in selected" :key="key">
                         <div
                             x-html="item.html"
-                            class="border-b last:border-b-0"
+                            class="border-b dark:border-white/10 last:border-b-0"
                         ></div>
                     </template>
                 </div>
@@ -180,7 +185,7 @@
         @endif
 
         <template x-if="loading">
-            <div class="w-1/2 h-128 border rounded-lg overflow-hidden flex justify-center items-center">
+            <div class="w-1/2 h-128 border dark:border-white/10 rounded-lg overflow-hidden flex justify-center items-center">
                 <x-filament::loading-indicator
                     class="w-10 h-10"
                 />
