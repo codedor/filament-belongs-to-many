@@ -4,6 +4,7 @@ namespace Codedor\BelongsToMany\Forms\Components;
 
 use Closure;
 use Filament\Forms\Components\Field;
+use Filament\Forms\Contracts\HasForms;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Collection;
@@ -37,7 +38,7 @@ class BelongsToManyInput extends Field
                         return;
                     }
 
-                    /** @var \Livewire\Component $livewire */
+                    /** @var \Livewire\Component&HasForms $livewire */
                     $livewire = $component->getLivewire();
 
                     $livewire->dispatch(

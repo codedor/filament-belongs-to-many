@@ -1,0 +1,5 @@
+parameters:
+    ignoreErrors:
+        -
+            message: "#^Property Codedor\\\\BelongsToMany\\\\Forms\\\\Components\\\\BelongsToManyInput\\:\\:\\$view \\(view-string\\) does not accept default value of type string.$#"
+            path: src/Forms/Components/BelongsToManyInput.php
