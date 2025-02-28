@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## v1.2.0 - 2025-02-28
+
+### What's Changed
+
+* Bump ramsey/composer-install from 2 to 3 by @dependabot in https://github.com/codedor/filament-belongs-to-many/pull/14
+* Bump dependabot/fetch-metadata from 1.6.0 to 2.2.0 by @dependabot in https://github.com/codedor/filament-belongs-to-many/pull/19
+* Bump dependabot/fetch-metadata from 2.2.0 to 2.3.0 by @dependabot in https://github.com/codedor/filament-belongs-to-many/pull/20
+* Bump aglipanci/laravel-pint-action from 2.4 to 2.5 by @dependabot in https://github.com/codedor/filament-belongs-to-many/pull/21
+* Upgrade to L12 by @jyrkidn in https://github.com/codedor/filament-belongs-to-many/pull/22
+
+**Full Changelog**: https://github.com/codedor/filament-belongs-to-many/compare/v1.1.0...v1.2.0
+
 ## v1.1.0 - 2024-08-07
 
 ### What's Changed
