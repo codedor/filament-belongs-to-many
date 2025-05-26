@@ -84,6 +84,10 @@ class BelongsToManyInput extends Field
                 $state->toArray(),
                 true
             );
+
+            $livewire = $component->getLivewire();
+
+            $livewire->dispatch("belongs-to-many::resetSelected-{$component->getStatePath()}");
         });
 
         // Don't save the state as a normal field
