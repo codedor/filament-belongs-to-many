@@ -19,6 +19,11 @@
 
                 this.loading = false
             })
+            
+            $wire.$on('belongs-to-many::resetSelected-{{ $getStatePath() }}', () => {
+                this.selected = []
+                this.loading = false
+            })
 
             $watch('search', () => this.page = 1)
         },
