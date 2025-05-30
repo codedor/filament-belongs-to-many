@@ -31,23 +31,24 @@ class BelongsToManyInput extends Field
         $this->relationship = $this->getName();
 
         // Register some listeners
-        $this->registerListeners([
-            'belongs-to-many::fetchItems' => [
-                function (self $component, string $statePath): void {
-                    if ($statePath !== $component->getStatePath()) {
-                        return;
-                    }
-
-                    /** @var \Livewire\Component&HasForms $livewire */
-                    $livewire = $component->getLivewire();
-
-                    $livewire->dispatch(
-                        "belongs-to-many::itemsFetchedFor-{$statePath}",
-                        $component->getResourcesForAlpine()
-                    );
-                },
-            ],
-        ]);
+        // TODO: check how to do this in Filament v4
+        // $this->registerListeners([
+        //     'belongs-to-many::fetchItems' => [
+        //         function (self $component, string $statePath): void {
+        //             if ($statePath !== $component->getStatePath()) {
+        //                 return;
+        //             }
+        //
+        //             /** @var \Livewire\Component&HasForms $livewire */
+        //             $livewire = $component->getLivewire();
+        //
+        //             $livewire->dispatch(
+        //                 "belongs-to-many::itemsFetchedFor-{$statePath}",
+        //                 $component->getResourcesForAlpine()
+        //             );
+        //         },
+        //     ],
+        // ]);
 
         // Default to all items
         $this->resourceQuery(function (Builder $query) {
