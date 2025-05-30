@@ -1,7 +1,6 @@
 <?php
 
 use Codedor\BelongsToMany\Forms\Components\BelongsToManyInput;
-use Codedor\BelongsToMany\Tests\Fixtures\Forms\Livewire;
 use Codedor\BelongsToMany\Tests\Fixtures\Models\TestModel;
 
 it('can setup the input', function () {
