@@ -21,8 +21,7 @@
             })
 
             $wire.$on('belongs-to-many::resetSelected-{{ $getStatePath() }}', () => {
-                this.selected = []
-                this.loading = false
+                $wire.callSchemaComponentMethod(@js($getKey()), 'fetchItems')
             })
 
             $watch('search', () => this.page = 1)
