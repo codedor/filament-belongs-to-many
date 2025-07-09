@@ -174,12 +174,12 @@ class BelongsToManyInput extends Field
     #[ExposedLivewireMethod]
     public function fetchItems(): void
     {
-         /** @var \Livewire\Component&HasForms $livewire */
-         $livewire = $this->getLivewire();
+        /** @var \Livewire\Component&HasForms $livewire */
+        $livewire = $this->getLivewire();
 
-         $livewire->dispatch(
-             "belongs-to-many::itemsFetchedFor-{$this->getStatePath()}",
-             $this->getResourcesForAlpine()
-         );
-     }
+        $livewire->dispatch(
+            "belongs-to-many::itemsFetchedFor-{$this->getStatePath()}",
+            $this->getResourcesForAlpine()
+        );
+    }
 }
