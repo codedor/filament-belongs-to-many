@@ -10,7 +10,7 @@
         init () {
             this.state ??= [] // Insure that it uses an array
 
-            $wire.dispatchFormEvent('belongs-to-many::fetchItems', '{{ $getStatePath() }}')
+            $wire.callSchemaComponentMethod(@js($getKey()), 'fetchItems')
             $wire.$on('belongs-to-many::itemsFetchedFor-{{ $getStatePath() }}', (items) => {
                 this.items = [...items[0]]
 
@@ -19,7 +19,7 @@
 
                 this.loading = false
             })
-            
+
             $wire.$on('belongs-to-many::resetSelected-{{ $getStatePath() }}', () => {
                 this.selected = []
                 this.loading = false
