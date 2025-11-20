@@ -19,10 +19,9 @@
 
                 this.loading = false
             })
-            
+
             $wire.$on('belongs-to-many::resetSelected-{{ $getStatePath() }}', () => {
-                this.selected = []
-                this.loading = false
+                $wire.dispatchFormEvent('belongs-to-many::fetchItems', '{{ $getStatePath() }}')
             })
 
             $watch('search', () => this.page = 1)
