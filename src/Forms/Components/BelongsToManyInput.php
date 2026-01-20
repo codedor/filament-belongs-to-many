@@ -1,10 +1,11 @@
 <?php
 
-namespace Codedor\BelongsToMany\Forms\Components;
+namespace Wotz\BelongsToMany\Forms\Components;
 
 use Closure;
 use Filament\Forms\Components\Field;
 use Filament\Forms\Contracts\HasForms;
+use Filament\Support\Components\Attributes\ExposedLivewireMethod;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Collection;
@@ -29,25 +30,6 @@ class BelongsToManyInput extends Field
     {
         // Guess the relationship name
         $this->relationship = $this->getName();
-
-        // Register some listeners
-        $this->registerListeners([
-            'belongs-to-many::fetchItems' => [
-                function (self $component, string $statePath): void {
-                    if ($statePath !== $component->getStatePath()) {
-                        return;
-                    }
-
-                    /** @var \Livewire\Component&HasForms $livewire */
-                    $livewire = $component->getLivewire();
-
-                    $livewire->dispatch(
-                        "belongs-to-many::itemsFetchedFor-{$statePath}",
-                        $component->getResourcesForAlpine()
-                    );
-                },
-            ],
-        ]);
 
         // Default to all items
         $this->resourceQuery(function (Builder $query) {
@@ -187,5 +169,17 @@ class BelongsToManyInput extends Field
         }
 
         return $this->evaluate($this->itemLabel, ['item' => $item]);
+    }
+
+    #[ExposedLivewireMethod]
+    public function fetchItems(): void
+    {
+        /** @var \Livewire\Component&HasForms $livewire */
+        $livewire = $this->getLivewire();
+
+        $livewire->dispatch(
+            "belongs-to-many::itemsFetchedFor-{$this->getStatePath()}",
+            $this->getResourcesForAlpine()
+        );
     }
 }

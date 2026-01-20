@@ -1,6 +1,6 @@
 <?php
 
-namespace Codedor\BelongsToMany\Providers;
+namespace Wotz\BelongsToMany\Providers;
 
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;

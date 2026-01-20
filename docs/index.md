@@ -5,7 +5,7 @@
 First, install this package via the Composer package manager:
 
 ```bash
-composer require codedor/filament-belongs-to-many
+composer require wotz/filament-belongs-to-many
 ```
 
 In an effort to align with Filament's theming methodology you will need to use a custom theme to use this plugin.
@@ -16,7 +16,7 @@ In an effort to align with Filament's theming methodology you will need to use a
 1. Import the plugin's stylesheet (if not already included) into your theme's css file.
 
 ```css
-@import '../../../../vendor/codedor/filament-belongs-to-many/resources/css/plugin.css';
+@import '../../../../vendor/wotz/filament-belongs-to-many/resources/css/plugin.css';
 ```
 
 2. Add the plugin's views to your `tailwind.config.js` file.
@@ -24,7 +24,7 @@ In an effort to align with Filament's theming methodology you will need to use a
 ```js
 content: [
     ...
-    './vendor/codedor/filament-belongs-to-many/resources/**/*.blade.php',
+    './vendor/wotz/filament-belongs-to-many/resources/**/*.blade.php',
 ]
 ```
 
@@ -33,7 +33,7 @@ content: [
 To use this field, you'll need to add it to your resource's Edit page, like so:
 
 ```php
-use Codedor\BelongsToMany\Forms\Components\BelongsToManyInput;
+use Wotz\BelongsToMany\Forms\Components\BelongsToManyInput;
 
 public static function form(Form $form)
 {

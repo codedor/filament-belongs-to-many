@@ -10,7 +10,7 @@
         init () {
             this.state ??= [] // Insure that it uses an array
 
-            $wire.dispatchFormEvent('belongs-to-many::fetchItems', '{{ $getStatePath() }}')
+            $wire.callSchemaComponentMethod(@js($getKey()), 'fetchItems')
             $wire.$on('belongs-to-many::itemsFetchedFor-{{ $getStatePath() }}', (items) => {
                 this.items = [...items[0]]
 
@@ -21,7 +21,7 @@
             })
 
             $wire.$on('belongs-to-many::resetSelected-{{ $getStatePath() }}', () => {
-                $wire.dispatchFormEvent('belongs-to-many::fetchItems', '{{ $getStatePath() }}')
+                $wire.callSchemaComponentMethod(@js($getKey()), 'fetchItems')
             })
 
             $watch('search', () => this.page = 1)
@@ -72,8 +72,8 @@
     }">
         @if (! $isDisabled())
             <div class="flex" x-show="! loading" x-cloak>
-                <div class="w-1/2 h-128 border dark:border-white/10 rounded-lg overflow-hidden flex flex-col">
-                    <div class="border-b dark:border-white/10 p-2">
+                <div class="w-1/2 h-128 border border-gray-950/10 dark:border-white/10  rounded-lg overflow-hidden flex flex-col">
+                    <div class="border-b border-gray-950/10 dark:border-white/10 p-2">
                         <input
                             type="text"
                             x-model="search"
@@ -96,7 +96,7 @@
                             <div
                                 x-html="item.html"
                                 @click="toggle(item)"
-                                class="border-b last:border-b-0 dark:border-white/10 cursor-pointer hover:bg-gray-100 dark:hover:bg-white/5"
+                                class="border-b last:border-b-0 border-gray-950/10 dark:border-white/10 cursor-pointer hover:bg-gray-100 dark:hover:bg-white/5"
                             ></div>
                         </template>
                     </div>
@@ -158,7 +158,7 @@
                 </div>
 
                 <div
-                    class="w-1/2 h-128 border dark:border-white/10 border rounded-lg overflow-y-auto"
+                    class="w-1/2 h-128 border border-gray-950/10 dark:border-white/10 border rounded-lg overflow-y-auto"
                     @if ($getSortable())
                         x-sortable="selected"
                         x-on:end="reorder($event)"
@@ -170,18 +170,18 @@
                             x-sortable-item="item.id"
                             x-html="item.html"
                             @click="toggle(item)"
-                            class="border-b dark:border-white/10 last:border-b-0 cursor-pointer hover:bg-gray-100 dark:hover:bg-white/5"
+                            class="border-b border-gray-950/10 dark:border-white/10 last:border-b-0 cursor-pointer hover:bg-gray-100 dark:hover:bg-white/5"
                         ></div>
                     </template>
                 </div>
             </div>
         @else
             <div class="flex" x-show="! loading" x-cloak>
-                <div class="w-1/2 max-h-128 border dark:border-white/10 border rounded-lg overflow-y-auto">
+                <div class="w-1/2 max-h-128 border border-gray-950/10 dark:border-white/10 border rounded-lg overflow-y-auto">
                     <template x-for="(item, key) in selected" :key="key">
                         <div
                             x-html="item.html"
-                            class="border-b dark:border-white/10 last:border-b-0"
+                            class="border-b border-gray-950/10 dark:border-white/10 last:border-b-0"
                         ></div>
                     </template>
                 </div>
@@ -189,7 +189,7 @@
         @endif
 
         <template x-if="loading">
-            <div class="w-1/2 h-128 border dark:border-white/10 rounded-lg overflow-hidden flex justify-center items-center">
+            <div class="w-1/2 h-128 border border-gray-950/10 dark:border-white/10 rounded-lg overflow-hidden flex justify-center items-center">
                 <x-filament::loading-indicator
                     class="w-10 h-10"
                 />
