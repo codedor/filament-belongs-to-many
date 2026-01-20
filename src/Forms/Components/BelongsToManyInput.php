@@ -1,6 +1,6 @@
 <?php
 
-namespace Codedor\BelongsToMany\Forms\Components;
+namespace Wotz\BelongsToMany\Forms\Components;
 
 use Closure;
 use Filament\Forms\Components\Field;

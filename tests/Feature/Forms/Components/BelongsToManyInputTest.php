@@ -1,7 +1,7 @@
 <?php
 
-use Codedor\BelongsToMany\Forms\Components\BelongsToManyInput;
-use Codedor\BelongsToMany\Tests\Fixtures\Models\TestModel;
+use Wotz\BelongsToMany\Forms\Components\BelongsToManyInput;
+use Wotz\BelongsToMany\Tests\Fixtures\Models\TestModel;
 
 it('can setup the input', function () {
     $field = BelongsToManyInput::make('tags')
