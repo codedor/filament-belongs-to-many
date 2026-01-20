@@ -1,8 +1,8 @@
 <?php
 
-namespace Codedor\BelongsToMany\Tests;
+namespace Wotz\BelongsToMany\Tests;
 
-use Codedor\BelongsToMany\Providers\BelongsToManyServiceProvider;
+use Wotz\BelongsToMany\Providers\BelongsToManyServiceProvider;
 use Filament\FilamentServiceProvider;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Livewire\LivewireServiceProvider;
@@ -15,7 +15,7 @@ class TestCase extends Orchestra
         parent::setUp();
 
         Factory::guessFactoryNamesUsing(
-            fn (string $modelName) => 'Codedor\\BelongsToMany\\Database\\Factories\\' . class_basename($modelName) . 'Factory'
+            fn (string $modelName) => 'Wotz\\BelongsToMany\\Database\\Factories\\' . class_basename($modelName) . 'Factory'
         );
     }
 

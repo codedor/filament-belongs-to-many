@@ -1,13 +1,16 @@
 {
-    "name": "codedor/filament-belongs-to-many",
+    "name": "wotz/filament-belongs-to-many",
     "description": "HABTM field for Filament",
     "keywords": [
-        "codedor",
+        "who owns the zebra",
         "laravel",
         "filament-belongs-to-many"
     ],
-    "homepage": "https://github.com/codedor/filament-belongs-to-many",
+    "homepage": "https://github.com/wotzebra/filament-belongs-to-many",
     "license": "MIT",
+    "support": {
+        "email": "info@whoownsthezebra.be"
+    },
     "require": {
         "php": "^8.2",
         "filament/filament": "^4.0|^5.0",
@@ -19,27 +22,27 @@
         "laravel/pint": "^1.0",
         "nunomaduro/collision": "^7.0|^8.0",
         "orchestra/testbench": "^8.0|^9.0|^10.0",
-        "pestphp/pest": "^2.0|^3.0",
-        "pestphp/pest-plugin-laravel": "^2.0|^3.0",
+        "pestphp/pest": "^2.0|^3.0|^4.0",
+        "pestphp/pest-plugin-laravel": "^2.0|^3.0|^4.0",
         "phpstan/extension-installer": "^1.1|^2.0",
         "phpstan/phpstan-deprecation-rules": "^1.0|^2.0",
         "phpstan/phpstan-phpunit": "^1.0|^2.0"
     },
     "autoload": {
         "psr-4": {
-            "Codedor\\BelongsToMany\\": "src",
-            "Codedor\\BelongsToMany\\Database\\Factories\\": "database/factories"
+            "Wotz\\BelongsToMany\\": "src",
+            "Wotz\\BelongsToMany\\Database\\Factories\\": "database/factories"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Codedor\\BelongsToMany\\Tests\\": "tests"
+            "Wotz\\BelongsToMany\\Tests\\": "tests"
         }
     },
     "extra": {
         "laravel": {
             "providers": [
-                "Codedor\\BelongsToMany\\Providers\\BelongsToManyServiceProvider"
+                "Wotz\\BelongsToMany\\Providers\\BelongsToManyServiceProvider"
             ]
         }
     },
